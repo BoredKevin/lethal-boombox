@@ -1,7 +1,8 @@
-require('dotenv').config()
+require('dotenv').config();
 
 const { Player } = require('discord-player');
 const { Client, GatewayIntentBits } = require('discord.js');
+const { YoutubeiExtractor } = require('discord-player-youtubei'); // Import the new extractor
 
 global.client = new Client({
     intents: [
@@ -9,7 +10,7 @@ global.client = new Client({
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.GuildVoiceStates,
-        GatewayIntentBits.MessageContent
+        GatewayIntentBits.MessageContent,
     ],
     disableMentions: 'everyone',
 });
@@ -17,9 +18,10 @@ global.client = new Client({
 client.config = require('./config');
 
 const player = new Player(client, client.config.opt.discordPlayer);
-player.extractors.loadDefault();
+// Register the new Youtubei extractor
+player.extractors.register(YoutubeiExtractor, {});
 
-console.clear()
+console.clear();
 require('./loader');
 require('./keep-alive');
 
